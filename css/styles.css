@@ -82,7 +82,7 @@ section {
     color: #000;
 }
 
-.navbar__menu .menu__link:hover {
+.navbar__menu .menu__link:hover, .selected {
     background: #333;
     color: #fff;
     transition: ease 0.3s all;
@@ -96,6 +96,18 @@ section {
     top: 0;
     width: 100%;
     z-index: 5;
+}
+
+.scroll__button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    margin: 8px;
+    padding: 8px 14px 0;
+    font-size: 27px;
+    position: fixed;
+    bottom: 24%;
+    right: 3%;
 }
 
 /* Footer Styles */

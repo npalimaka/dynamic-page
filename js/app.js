@@ -21,6 +21,7 @@ const sectionsLinks = document.createDocumentFragment();
 const navbarList = document.querySelector('#navbar__list');
 const sectionsHdList = document.getElementsByTagName('h2');
 const sections = document.getElementsByTagName('section');
+const footer = document.querySelector('footer');
 
 /**
  * End Global Variables
@@ -29,17 +30,19 @@ const sections = document.getElementsByTagName('section');
 */
 
 /**
- * @description Hides navigation bar
+ * @description Hides element by id
+ * @param {string} id
  */
-function hideNav(){
-    document.getElementById('navbar__list').style.display = 'none';
+function hideElementById(id){
+    document.getElementById(id).style.display = 'none';
 }
 
 /**
- * @description Shows navigation bar
+ * @description Shows element by id
+ * @param {string} id
  */
-function showNav(){
-    document.getElementById('navbar__list').style.display = 'block';
+function showElementById(id){
+    document.getElementById(id).style.display = 'block';
 }
 
 /**
@@ -83,12 +86,32 @@ function scrollToSection(element) {
 }
 
 /**
+ * Creates a button for scrolling to top of the page
+ */
+function createScrollToTop() {
+    const arrowButton = document.createElement('button');
+    arrowButton.id = 'scrollButton';
+    arrowButton.innerText = '^';
+    arrowButton.classList.add('scroll__button');
+
+    arrowButton.addEventListener('click', () => window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    }));
+
+    footer.before(arrowButton);
+    hideElementById('scrollButton');
+}
+
+/**
  * End Helper Functions
  * Begin Main Functions
  * 
 */
 // Adding 4th section
 addNewSection();
+createScrollToTop();
 
 // Building the nav
 for (const section of sectionsHdList) {
@@ -98,7 +121,7 @@ navbarList.appendChild(sectionsLinks);
 
 // Adding class 'active' to section when near top of viewport
 document.addEventListener('scroll', () => {
-    showNav();
+    showElementById('navbar__list');
     for (const section of sections) {
         if (section.getBoundingClientRect().top <= window.innerHeight / 2
             && section.getBoundingClientRect().top + section.getBoundingClientRect().height > window.innerHeight / 2) {
@@ -107,5 +130,10 @@ document.addEventListener('scroll', () => {
             section.classList.remove('active');
         }
     }
-    setTimeout(hideNav, 3000);
-})
+    if (footer.getBoundingClientRect().top < 700) {
+        showElementById('scrollButton');
+    } else {
+        hideElementById('scrollButton');
+    }
+    setTimeout(() => hideElementById('navbar__list'), 5000);
+});
